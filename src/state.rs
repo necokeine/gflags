@@ -91,7 +91,7 @@ impl<T: 'static> Flag<T> {
         }
     }
 
-    pub(crate) fn set(&self, value: T) {
+    pub fn set(&self, value: T) {
         let ptr = Box::leak(Box::new(value));
         self.atomic.store(ptr, Ordering::Release);
         self.present.fetch_add(1, Ordering::Release);
@@ -100,7 +100,7 @@ impl<T: 'static> Flag<T> {
 
 impl Flag<bool> {
     #[allow(clippy::trivially_copy_pass_by_ref)]
-    pub(crate) fn set_bool(&self, value: &'static bool) {
+    pub fn set_bool(&self, value: &'static bool) {
         self.atomic.store(value, Ordering::Release);
         self.present.fetch_add(1, Ordering::Release);
     }
